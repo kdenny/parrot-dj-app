@@ -25,7 +25,7 @@ SECRET_KEY = 'c@9jscmjz1)znnxmg$ct@!3ka8ec&_s)())av%&v%8$59g0aak'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1:8000', '127.0.0.1', 'localhost:8000', 'packagerat.pythonanywhere.com', 'http://packagerat.pythonanywhere.com', 'http://localhost:8100', '127.0.0.1:8100', 'http://localhost:4200']
+ALLOWED_HOSTS = ['127.0.0.1:8000', '127.0.0.1', 'localhost:8000', 'parrotapp.pythonanywhere.com', 'http://parrotapp.pythonanywhere.com', 'http://localhost:8100', '127.0.0.1:8100', 'http://localhost:4200']
 
 CORS_ORIGIN_ALLOW_ALL = True
 # Application definition
