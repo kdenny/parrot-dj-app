@@ -1,0 +1,439 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "ParrotFix API",
+    "description": "An API for the ParrotFix residential management app. Hosted at https://rawgit.com/kdenny/elasticsearch_example/master/swagger_file.json",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "name": "Kevin Denny"
+    },
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "host": "fixparrot.pythonanywhere.com",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/maintenance": {
+      "get": {
+        "description": "Returns all active maintenance requests",
+        "operationId": "getActiveMaintenance",
+        "produces": [
+          "application/json",
+          "application/xml",
+          "text/xml",
+          "text/html"
+        ],
+        "responses": {
+          "200": {
+            "description": "maintenance response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MaintenanceRequest"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Creates a new maintenance request",
+        "operationId": "addMaintenance",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "maintenanceRequest",
+            "in": "body",
+            "description": "MaintenanceRequest to add",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewMaintenanceRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "maintenance created response",
+            "schema": {
+              "$ref": "#/definitions/MaintenanceRequest"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/maintenance/apartments/{apartment_id}": {
+      "get": {
+        "description": "Returns all active and historical maintenace requests for a specific apartment",
+        "operationId": "getMaintenanceForApartment",
+        "produces": [
+          "application/json",
+          "application/xml",
+          "text/xml",
+          "text/html"
+        ],
+        "responses": {
+          "200": {
+            "description": "maintenance response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MaintenanceRequest"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/maintenance/{id}": {
+      "get": {
+        "description": "Returns all info about a maintenance request based on a single ID",
+        "operationId": "findMaintenanceById",
+        "produces": [
+          "application/json",
+          "application/xml",
+          "text/xml",
+          "text/html"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of maintenance request to fetch",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "maintenance response",
+            "schema": {
+              "$ref": "#/definitions/MaintenanceRequest"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/maintenance/{id}/update": {
+      "post": {
+        "description": "Add a new maintenance update from staff",
+        "operationId": "addMaintenanceUpdate",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of maintenance request to update",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "maintenanceUpdate",
+            "in": "body",
+            "description": "MaintenanceUpdate to add to the MaintenanceRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MaintenanceUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "maintenance update response",
+            "schema": {
+              "$ref": "#/definitions/MaintenanceUpdate"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/maintenance/{id}/comment": {
+      "post": {
+        "description": "Add a new user comment to a maintenance request",
+        "operationId": "addMaintenanceComment",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of maintenance request to add comment",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "comment",
+            "in": "body",
+            "description": "Comment to add to the MaintenanceRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Comment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "comment response",
+            "schema": {
+              "$ref": "#/definitions/Comment"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/maintenance/staff/{staff_id}/": {
+      "get": {
+        "description": "Returns all active and historical maintenance requests for a specific apartment",
+        "operationId": "getMaintenanceForStaff",
+        "produces": [
+          "application/json",
+          "application/xml",
+          "text/xml",
+          "text/html"
+        ],
+        "parameters": [
+          {
+            "name": "staff_id",
+            "in": "path",
+            "description": "ID of staff member to query for",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "maintenance response",
+            "schema": {
+              "$ref": "#/definitions/Maintenance"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/maintenance/category/{category_id}/": {
+      "get": {
+        "description": "Returns all maintenance for a specific category",
+        "operationId": "getMaintenanceForCategory",
+        "produces": [
+          "application/json",
+          "application/xml",
+          "text/xml",
+          "text/html"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of category to query for",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "maintenance response",
+            "schema": {
+              "$ref": "#/definitions/Maintenance"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Maintenance": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/NewMaintenance"
+        },
+        {
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "staff": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "submitted_date": {
+              "type": "dateTime"
+            },
+            "updates": {
+              "type": "array",
+              "$ref": "#/definitions/MaintenanceUpdate"
+            },
+            "comments": {
+              "type": "array",
+              "$ref": "#/definitions/Comment"
+            }
+          }
+        }
+      ]
+    },
+    "NewMaintenance": {
+      "type": "object",
+      "required": [
+        "resident",
+        "apartment",
+        "description",
+        "category"
+      ],
+      "properties": {
+        "resident": {
+          "type": "string"
+        },
+        "apartment": {
+          "type": "string"
+        },
+        "category": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": {
+          "type": "string"
+        },
+      }
+    },
+    "MaintenanceUpdate": {
+      "type": "object",
+      "required": [
+        "update_type",
+        "staff"
+      ],
+      "properties": {
+        "staff": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "update_type": {
+          "type": "string"
+        },
+        "comment": {
+          "$ref": "#/definitions/Comment"
+        }
+      }
+    },
+    "Comment": {
+      "type": "object",
+      "required": [
+        "submitted_by",
+        "text"
+      ],
+      "properties": {
+        "submitted_by": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
+      }
+    },
+    "Category": {
+      "type": "object",
+      "required": [
+        "name",
+        "subcategories",
+        "staff"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "subcategories": {
+          "type": "string"
+        },
+        "staff": {
+          "type": "array"
+        }
+      }
+    },
+    "ErrorModel": {
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
