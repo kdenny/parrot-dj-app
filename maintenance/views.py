@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from maintenance.models import MaintenanceRequest
-from maintenance.serializers import MaintenanceReadSerializer, MaintenancePostSerializer, MaintenanceUpdateSerializer
+from maintenance.serializers import MaintenanceReadSerializer, MaintenancePostSerializer, MaintenanceUpdateSerializer, CommentSerializer
 from rest_framework.views import APIView
 from rest_framework import status
 
@@ -38,6 +38,14 @@ class MaintenanceListView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             #################### END POST RELATED METHODS ####################
 
+class MaintenanceDetailView(APIView):
+
+    def get(self, request, maint_id='0'):
+        if (maint_id != '0'):
+            maint_request = MaintenanceRequest.objects.get(id=maint_id)
+
+            serializer = MaintenanceReadSerializer(maint_request)
+            return Response(serializer.data)
 
 class MaintenanceUpdateView(APIView):
 
@@ -65,3 +73,44 @@ class MaintenanceUpdateView(APIView):
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
                 #################### END POST RELATED METHODS ####################
+
+class MaintenanceCommentView(APIView):
+
+    def get(self, request, maint_id='0'):
+        if (maint_id != '0'):
+            maint_request = MaintenanceRequest.objects.get(id=maint_id)
+
+            serializer = MaintenanceReadSerializer(maint_request)
+            return Response(serializer.data)
+
+    def post(self, request, maint_id='0'):
+        if (maint_id != '0'):
+            this_update = request.data
+            this_update['request'] = maint_id
+
+            serializer = CommentSerializer(data=this_update)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                #################### END POST RELATED METHODS ####################
+
+
+class StaffMaintenanceView(APIView):
+
+    def get(self, request, staff_id='0'):
+        if (staff_id != '0'):
+            maint_requests = MaintenanceRequest.objects.filter(staff__id=staff_id)
+
+            serializer = MaintenanceReadSerializer(maint_requests)
+            return Response(serializer.data)
+
+class CategoryMaintenanceView(APIView):
+
+    def get(self, request, category_id='0'):
+        if (category_id != '0'):
+            maint_requests = MaintenanceRequest.objects.filter(category__id=category_id)
+
+            serializer = MaintenanceReadSerializer(maint_requests)
+            return Response(serializer.data)

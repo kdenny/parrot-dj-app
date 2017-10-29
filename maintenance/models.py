@@ -21,7 +21,6 @@ class Staff(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=150)
     staff = models.ManyToManyField(Staff)
-    date = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return unicode(self.name)

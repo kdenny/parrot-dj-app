@@ -10,5 +10,4 @@ urlpatterns = [
     url(r'^home_view/$', views.PackagesByFloor.as_view()),
     url(r'^packages/(?P<apartment_key>[0-9]+)/$', views.PackagesListView.as_view()),
     url(r'^apartments/(?P<apartment_key>[0-9]+)/$', views.ApartmentResidentsView.as_view()),
-    url(r'^geo/$', views.GeoData.as_view()),
 ]

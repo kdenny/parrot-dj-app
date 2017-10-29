@@ -20,3 +20,10 @@ class MaintenanceUpdateSerializer(serializers.ModelSerializer):
         model = MaintenanceUpdate
 
         fields = ('staff', 'comment', 'update_type', 'request', )
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+
+        fields = ('submitted_by', 'request', 'text', )
