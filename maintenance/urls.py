@@ -10,6 +10,6 @@ urlpatterns = [
     url(r'^maintenance/(?P<maint_id>[0-9]+)/$', views.MaintenanceDetailView.as_view()),
     url(r'^maintenance/(?P<maint_id>[0-9]+)/update/$', views.MaintenanceUpdateView.as_view()),
     url(r'^maintenance/(?P<maint_id>[0-9]+)/comment/$', views.MaintenanceCommentView.as_view()),
-    # url(r'^maintenance/staff/(?P<staff_id>[0-9]+)/$', views.StaffMaintenanceView.as_view()),
-    # url(r'^maintenance/category/(?P<category_id>[0-9]+)/$', views.CategoryMaintenanceView.as_view())
+    url(r'^maintenance/staff/(?P<staff_id>[0-9]+)/$', views.StaffMaintenanceView.as_view()),
+    url(r'^maintenance/category/(?P<category_id>[0-9]+)/$', views.CategoryMaintenanceView.as_view())
 ]
